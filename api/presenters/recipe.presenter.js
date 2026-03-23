@@ -5,18 +5,18 @@ const present = (recipe) => {
 		time: recipe.time,
 		servings: recipe.servings,
 		description: recipe.description,
-		category: recipe.category.title,
-		kitchen: recipe.kitchen.title,
+		category: recipe.category?.title || null,
+		kitchen: recipe.kitchen?.title || null,
 		ingredients: recipe.ingredients,
-		gallery: recipe.gallery.map(media => media.media),
-		stages: recipe.stages.map(stage => {
+		gallery: recipe.gallery ? recipe.gallery.map(media => media.media) : [],
+		stages: recipe.stages ? recipe.stages.map(stage => {
 			return {
 				_id: stage._id,
 				number: stage.number,
 				photo: stage.photo?.path ? stage.photo?.path : null,
 				description: stage.description
 			};
-		}),
+		}) : [],
 		rating: recipe.rating,
 		bookCount: recipe.bookCount,
 		inBook: recipe.inBook,
@@ -33,23 +33,23 @@ const presentWithCreator = (recipe) => {
 		time: recipe.time,
 		servings: recipe.servings,
 		description: recipe.description,
-		category: recipe.category.title,
-		kitchen: recipe.kitchen.title,
+		category: recipe.category?.title || null,
+		kitchen: recipe.kitchen?.title || null,
 		ingredients: recipe.ingredients,
-		gallery: recipe.gallery.map(item => item.media),
-		creator: {
+		gallery: recipe.gallery ? recipe.gallery.map(item => item.media) : [],
+		creator: recipe.creator ? {
 			_id: recipe.creator._id,
 			userName: recipe.creator.userName,
 			avatar: recipe.creator.avatar?.path ? recipe.creator.avatar?.path : null
-		},
-		stages: recipe.stages.map(stage => {
+		} : null,
+		stages: recipe.stages ? recipe.stages.map(stage => {
 			return {
 				_id: stage._id,
 				number: stage.number,
 				photo: stage.photo?.path ? stage.photo?.path : null,
 				description: stage.description
 			};
-		}),
+		}) : [],
 		rating: recipe.rating,
 		bookCount: recipe.bookCount,
 		inBook: recipe.inBook,

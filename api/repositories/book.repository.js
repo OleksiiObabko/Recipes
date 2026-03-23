@@ -12,7 +12,7 @@ module.exports = {
 		const limit = 8;
 		const skip = (page - 1) * limit;
 
-		const [book, count] = await Promise.all([
+		const [bookEntries, count] = await Promise.all([
 			Book
 				.find({author: authorId})
 				.populate({
@@ -26,15 +26,18 @@ module.exports = {
 						}
 					}
 				})
-				.transform(res => res.map(item => {
-					return {...item.recipe, inBook: true};
-				}))
 				.sort({createdAt: -1})
 				.skip(skip)
 				.limit(limit)
 				.lean(),
 			Book.countDocuments({author: authorId})
 		]);
+
+		const book = bookEntries
+			.filter(entry => entry.recipe)
+			.map(entry => {
+				return {...entry.recipe, inBook: true};
+			});
 
 		return {
 			book,

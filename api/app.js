@@ -5,7 +5,7 @@ const swaggerUI = require("swagger-ui-express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-const {MONGO_URL, PORT} = require("./configs/config");
+const {MONGO_URL, PORT, FRONTEND_URL} = require("./configs/config");
 const {
 	authorRouter,
 	authRouter,
@@ -16,12 +16,12 @@ const {
 	reviewRouter,
 	roleRouter
 } = require("./routers");
-const {cronRunner} = require("./crons");
+// const {cronRunner} = require("./crons");
 const swaggerJson = require("./swagger.json");
 
 const app = express();
 app.use(cors({
-	origin: "http://localhost:3000",
+	origin: FRONTEND_URL,
 	methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
 	credentials: true,
 	optionSuccessStatus: 200
@@ -55,6 +55,6 @@ app.listen(PORT, async () => {
 	mongoose.set("strictQuery", false);
 	await mongoose.connect(MONGO_URL);
 	console.log(`Server is listening port: ${PORT}`);
-	cronRunner();
-	console.log("Started cron");
+	// cronRunner();
+	// console.log("Started cron");
 });

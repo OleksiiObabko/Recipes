@@ -11,7 +11,7 @@ import {
 	Toolbar,
 	Typography
 } from "@mui/material";
-import {Logout} from "@mui/icons-material";
+import {Logout, RestaurantMenu, People} from "@mui/icons-material";
 
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {authActions} from "../../redux";
@@ -45,14 +45,16 @@ const Header: FC = () => {
 	};
 
 	return (
-		<AppBar position="static" sx={{mb: 4}}>
+		<AppBar position="static" sx={{mb: 4, background: "linear-gradient(to right, #ff7e5f, #feb47b)"}}>
 			<Container maxWidth={"xl"}>
 				<Toolbar disableGutters>
-					<Box sx={{display: "flex", flexGrow: 1}}>
+					<Box sx={{display: "flex", flexGrow: 1, columnGap: 2}}>
 						<MenuItem onClick={() => handleNav("/recipes")}>
+							<RestaurantMenu sx={{mr: 1}} />
 							<Typography textAlign="center">Recipes</Typography>
 						</MenuItem>
 						<MenuItem onClick={() => handleNav("/authors")}>
+							<People sx={{mr: 1}} />
 							<Typography textAlign="center">Authors</Typography>
 						</MenuItem>
 					</Box>
