@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {bookActions} from "../../../redux";
 import {RecipeSkeleton} from "../../Skeletons";
 import {MyPagination} from "../../MyPagingation/MyPagination";
-import {MyRecipe} from "../MyRecipe/MyRecipe";
+import {Recipe} from "../../Recipe/Recipe";
 
 const MyBook: FC = () => {
 	const dispatch = useAppDispatch();
@@ -19,19 +19,23 @@ const MyBook: FC = () => {
 
 	return (
 		<Box sx={{display: "flex", flexDirection: "column", flexGrow: 1}}>
-			<Grid minHeight="90vh" container justifyContent="center" spacing={3}>
+			<Grid container spacing={3}>
 				{
 					error && <h2>ERROR</h2>
 				}
 				{
 					!loading && !error && !!myRecipes.recipes.length &&
 					myRecipes.recipes.map(recipe =>
-						<MyRecipe showBook={true} recipe={recipe} key={recipe._id} />
+						<Recipe recipe={recipe} key={recipe._id} />
 					)
 				}
 				{
 					!loading && !error && !myRecipes.recipes.length &&
-					<Typography variant="h4" sx={{pt: 4}}>You book is empty</Typography>
+					<Grid item xs={12}>
+						<Typography variant="h5" sx={{pt: 4, textAlign: "center", color: "text.secondary"}}>
+							Your book is empty.
+						</Typography>
+					</Grid>
 				}
 				{
 					loading && !error &&
@@ -40,7 +44,9 @@ const MyBook: FC = () => {
 					)
 				}
 			</Grid>
-			<MyPagination count={myRecipes.count} />
+			<Box sx={{mt: 4, display: "flex", justifyContent: "center"}}>
+				<MyPagination count={myRecipes.count} />
+			</Box>
 		</Box>
 	);
 };

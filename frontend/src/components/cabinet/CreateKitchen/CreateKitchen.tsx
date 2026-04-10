@@ -1,5 +1,6 @@
 import {FC} from "react";
-import {Alert, Box, Button, Snackbar, TextField} from "@mui/material";
+import {Alert, Box, Button, Card, CardContent, Snackbar, TextField, Typography} from "@mui/material";
+import {Restaurant} from "@mui/icons-material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi";
 
@@ -22,46 +23,72 @@ const CreateKitchen: FC = () => {
 	};
 
 	return (
-		<Box
-			component="form"
-			noValidate
-			onSubmit={handleSubmit(onSubmit)}
-			sx={{
-				display: "flex",
-				flexDirection: "column",
-				alignItems: "center",
-				margin: "0 auto",
-				rowGap: 1
-			}}
-		>
-			<Controller
-				name={"title"}
-				control={control}
-				render={({field: {onChange, value}, fieldState: {error}}) => (
-					<TextField
-						error={!!error}
-						helperText={error?.message}
-						value={value || ""}
-						onChange={onChange}
-						margin="dense"
-						label="Kitchen Title"
-					/>
-				)}
-			/>
-			<Button
-				disabled={!isValid}
-				type="submit"
-				variant="contained"
-			>
-				Apply
-			</Button>
+		<Box sx={{display: "flex", justifyContent: "center", width: "100%", mt: 4}}>
+			<Card sx={{width: "100%", maxWidth: 500, borderRadius: 3, boxShadow: 3}}>
+				<CardContent sx={{p: 4}}>
+					<Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 3, justifyContent: "center"}}>
+						<Restaurant color="primary" fontSize="large" />
+						<Typography variant="h5" fontWeight="bold">
+							Create New Kitchen
+						</Typography>
+					</Box>
+
+					<Box
+						component="form"
+						noValidate
+						onSubmit={handleSubmit(onSubmit)}
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							gap: 3
+						}}
+					>
+						<Controller
+							name={"title"}
+							control={control}
+							render={({field: {onChange, value}, fieldState: {error}}) => (
+								<TextField
+									fullWidth
+									error={!!error}
+									helperText={error?.message}
+									value={value || ""}
+									onChange={onChange}
+									label="Kitchen Title"
+									variant="outlined"
+									placeholder="e.g. Italian"
+									sx={{
+										"& .MuiOutlinedInput-root": {
+											borderRadius: 2
+										}
+									}}
+								/>
+							)}
+						/>
+						<Button
+							disabled={!isValid}
+							type="submit"
+							variant="contained"
+							size="large"
+							sx={{
+								borderRadius: 2,
+								textTransform: "none",
+								fontWeight: "bold",
+								py: 1.5
+							}}
+						>
+							Create Kitchen
+						</Button>
+					</Box>
+				</CardContent>
+			</Card>
+
 			<Snackbar open={statusCode === 201} autoHideDuration={3000}>
-				<Alert severity="success" sx={{width: "100%"}}>
+				<Alert severity="success" sx={{width: "100%", borderRadius: 2}}>
 					Kitchen has been created
 				</Alert>
 			</Snackbar>
 			<Snackbar open={!!errorMessage} autoHideDuration={3000}>
-				<Alert severity="error" sx={{width: "100%"}}>
+				<Alert severity="error" sx={{width: "100%", borderRadius: 2}}>
 					{errorMessage}
 				</Alert>
 			</Snackbar>

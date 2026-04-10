@@ -1,6 +1,7 @@
 import {ChangeEvent, FC, KeyboardEvent, useEffect, useState} from "react";
-import {Chip, FormControl, Input, Paper} from "@mui/material";
+import {Chip, FormControl, TextField, Box, InputAdornment, IconButton} from "@mui/material";
 import {useNavigate, useSearchParams} from "react-router-dom";
+import AddIcon from '@mui/icons-material/Add';
 
 const IngredientsFilter: FC = () => {
 	const navigate = useNavigate();
@@ -13,14 +14,18 @@ const IngredientsFilter: FC = () => {
 		setValues(prev ? prev.split(",") : []);
 	}, [searchParams]);
 
-	const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === "Enter" && currValue) {
-			const newValues = [...values, currValue];
-
+	const addIngredient = (ingredient: string) => {
+		if (ingredient) {
+			const newValues = [...values, ingredient];
 			searchParams.set("ingredients", newValues.join(","));
 			navigate({search: searchParams.toString()});
-
 			setCurrValue("");
+		}
+	}
+
+	const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter") {
+			addIngredient(currValue);
 		} else if (e.key === "Backspace" && !currValue && values.length) {
 			const newValues = values.slice(0, -1);
 
@@ -38,11 +43,12 @@ const IngredientsFilter: FC = () => {
 		setCurrValue(e.currentTarget.value);
 	};
 
-	const handleDelete = (item: string, index: number) => {
-		values.splice(index, 1);
+	const handleDelete = (index: number) => {
+		const newValues = [...values];
+		newValues.splice(index, 1);
 
-		if (values.length) {
-			searchParams.set("ingredients", values.join(","));
+		if (newValues.length) {
+			searchParams.set("ingredients", newValues.join(","));
 		} else {
 			searchParams.delete("ingredients");
 		}
@@ -51,37 +57,49 @@ const IngredientsFilter: FC = () => {
 	};
 
 	return (
-		<FormControl>
+		<Box>
+			<TextField
+				fullWidth
+				size="small"
+				value={currValue}
+				label="Ingredients"
+				placeholder="Add ingredient..."
+				variant="outlined"
+				onChange={handleChange}
+				onKeyDown={handleKeyUp}
+				InputProps={{
+					endAdornment: (
+						<InputAdornment position="end">
+							<IconButton onClick={() => addIngredient(currValue)} edge="end" size="small" color="primary">
+								<AddIcon />
+							</IconButton>
+						</InputAdornment>
+					),
+					sx: {borderRadius: 2}
+				}}
+				sx={{mb: values.length ? 1 : 0}}
+			/>
 			{!!values.length &&
-				<Paper
+				<Box
 					sx={{
 						display: "flex",
-						justifyContent: "center",
 						flexWrap: "wrap",
-						listStyle: "none",
-						p: 1,
-						m: 0
+						gap: 1,
+						mt: 1
 					}}
-					component="ul"
 				>
 					{values.map((item, index) => (
 						<Chip
 							key={index}
 							size="small"
-							sx={{mr: 1, mb: 1}}
 							label={item}
-							onDelete={() => handleDelete(item, index)}
+							onDelete={() => handleDelete(index)}
+							sx={{borderRadius: 1}}
 						/>
 					))}
-				</Paper>
+				</Box>
 			}
-			<Input
-				value={currValue}
-				placeholder="Add ingredient"
-				onChange={handleChange}
-				onKeyDown={handleKeyUp}
-			/>
-		</FormControl>
+		</Box>
 	);
 };
 

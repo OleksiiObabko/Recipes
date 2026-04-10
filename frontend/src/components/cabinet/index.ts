@@ -1,6 +1,5 @@
 export * from "./ProfileSettings/ProfileSettings";
 export * from "./MyRecipes/MyRecipes";
-export * from "./MyRecipe/MyRecipe";
 export * from "./MyBook/MyBook";
 export * from "./CreateRecipe/CreateRecipe";
 export * from "./CreateRecipeForm/CreateRecipeForm";

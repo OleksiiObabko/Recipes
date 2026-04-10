@@ -3,10 +3,20 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import {FC, SyntheticEvent, useEffect, useMemo, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
+import {
+	Person as PersonIcon,
+	RestaurantMenu as RestaurantMenuIcon,
+	Bookmark as BookmarkIcon,
+	AddCircle as AddCircleIcon,
+	LibraryAdd as LibraryAddIcon,
+	Public as PublicIcon,
+	Gavel as GavelIcon
+} from "@mui/icons-material";
 
 interface ITab {
 	link: string,
-	label: string
+	label: string,
+	icon: JSX.Element
 }
 
 const AdminNavigation: FC = () => {
@@ -20,32 +30,39 @@ const AdminNavigation: FC = () => {
 
 	const tabs: ITab[] = useMemo(() => [
 		{
-			link: "profile",
-			label: "Profile"
-		},
-		{
 			link: "my-recipes",
-			label: "My recipes"
+			label: "My recipes",
+			icon: <RestaurantMenuIcon />
 		},
 		{
 			link: "my-book",
-			label: "My book"
+			label: "My book",
+			icon: <BookmarkIcon />
 		},
 		{
 			link: "create-recipe",
-			label: "Create recipe"
+			label: "Create recipe",
+			icon: <AddCircleIcon />
+		},
+		{
+			link: "profile",
+			label: "Profile",
+			icon: <PersonIcon />
 		},
 		{
 			link: "moderation",
-			label: "Moderation list"
+			label: "Moderation list",
+			icon: <GavelIcon />
 		},
 		{
 			link: "create-category",
-			label: "Create category"
+			label: "Create category",
+			icon: <LibraryAddIcon />
 		},
 		{
 			link: "create-kitchen",
-			label: "Create kitchen"
+			label: "Create kitchen",
+			icon: <PublicIcon />
 		}
 	], []);
 
@@ -60,18 +77,55 @@ const AdminNavigation: FC = () => {
 
 	return (
 		<Box
-			sx={{bgcolor: "background.paper"}}
+			sx={{
+				bgcolor: "background.paper",
+				borderRadius: 4,
+				overflow: "hidden",
+				boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+				border: "1px solid rgba(0,0,0,0.05)"
+			}}
 		>
 			<Tabs
 				orientation="vertical"
 				variant="scrollable"
 				value={value}
 				onChange={handleChange}
-				aria-label="Vertical tabs example"
-				sx={{borderRight: 1, borderColor: "divider"}}
+				aria-label="Admin navigation"
+				sx={{
+					'& .MuiTab-root': {
+						alignItems: 'flex-start',
+						textAlign: 'left',
+						textTransform: 'none',
+						fontWeight: 600,
+						py: 1.5,
+						px: 3,
+						minHeight: 48,
+						transition: '0.2s',
+						'&:hover': {
+							bgcolor: 'rgba(25, 118, 210, 0.04)',
+						},
+						'&.Mui-selected': {
+							bgcolor: 'rgba(25, 118, 210, 0.08)',
+						}
+					},
+					'& .MuiTabs-indicator': {
+						left: 0,
+						width: 4,
+						borderRadius: '0 4px 4px 0'
+					}
+				}}
 			>
 				{
-					tabs.map((tab, index) => <Tab key={index} onClick={() => navigate(tab.link)} label={tab.label} />)
+					tabs.map((tab, index) => (
+						<Tab
+							key={index}
+							onClick={() => navigate(tab.link)}
+							label={tab.label}
+							icon={tab.icon}
+							iconPosition="start"
+							sx={{gap: 2}}
+						/>
+					))
 				}
 			</Tabs>
 		</Box>

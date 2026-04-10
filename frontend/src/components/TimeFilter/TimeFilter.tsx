@@ -42,18 +42,19 @@ const TimeFilter: FC = () => {
 	};
 
 	return (
-		<Box sx={{display: "flex", columnGap: 2, alignItems: "center", width: 300}}>
-			<Typography variant="h6">
-				Time
-			</Typography>
+		<Box sx={{px: 1}}>
 			<Slider
 				value={value}
 				onChange={handleChange}
 				step={10}
 				onChangeCommitted={handleChangeCommitted}
 				valueLabelDisplay="auto"
+				sx={{
+					'& .MuiSlider-valueLabel': {
+						borderRadius: '4px',
+					},
+				}}
 			/>
-			<Button disabled={value[0] === 0 && value[1] === 100} variant="contained" onClick={handleClear}>Clear</Button>
 		</Box>
 	);
 };

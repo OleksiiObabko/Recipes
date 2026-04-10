@@ -1,5 +1,5 @@
 import {FC, useEffect, useMemo, useState} from "react";
-import {Badge, Box, IconButton} from "@mui/material";
+import {Badge, Box, IconButton, Tooltip} from "@mui/material";
 import {Favorite, FavoriteBorder} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 
@@ -62,23 +62,66 @@ const LikeToggle: FC<IProps> = ({_id}) => {
 
 	function renderAction() {
 		if (!loginAuthor) {
-			return <IconButton onClick={() => navigate("/login")}>
-				<Badge badgeContent={totalLikes} color="secondary" showZero>
-					<FavoriteBorder fontSize="medium" color="primary" />
-				</Badge>
-			</IconButton>;
+			return (
+				<Tooltip title="Login to like">
+					<IconButton onClick={() => navigate("/login")} sx={{ transition: "all 0.2s" }}>
+						<Badge
+							badgeContent={totalLikes}
+							color="secondary"
+							showZero
+							sx={{ "& .MuiBadge-badge": { top: 4, right: 4 } }}
+						>
+							<FavoriteBorder fontSize="medium" color="primary" />
+						</Badge>
+					</IconButton>
+				</Tooltip>
+			);
 		} else if (isLiked) {
-			return <IconButton disabled={loading || loginAuthor._id === _id} onClick={handleLikeDec}>
-				<Badge badgeContent={totalLikes} color="secondary" showZero>
-					<Favorite fontSize="medium" color="primary" />
-				</Badge>
-			</IconButton>;
+			return (
+				<Tooltip title="Unlike">
+					<IconButton
+						disabled={loading || loginAuthor._id === _id}
+						onClick={handleLikeDec}
+						sx={{
+							transition: "all 0.2s",
+							"&:hover": { transform: "scale(1.1)" },
+							"&:active": { transform: "scale(0.95)" }
+						}}
+					>
+						<Badge
+							badgeContent={totalLikes}
+							color="secondary"
+							showZero
+							sx={{ "& .MuiBadge-badge": { top: 4, right: 4 } }}
+						>
+							<Favorite fontSize="medium" color="primary" />
+						</Badge>
+					</IconButton>
+				</Tooltip>
+			);
 		} else {
-			return <IconButton disabled={loading || loginAuthor._id === _id} onClick={handleLikeInc}>
-				<Badge badgeContent={totalLikes} color="secondary" showZero>
-					<FavoriteBorder fontSize="medium" color="primary" />
-				</Badge>
-			</IconButton>;
+			return (
+				<Tooltip title="Like">
+					<IconButton
+						disabled={loading || loginAuthor._id === _id}
+						onClick={handleLikeInc}
+						sx={{
+							transition: "all 0.2s",
+							"&:hover": { transform: "scale(1.1)" },
+							"&:active": { transform: "scale(0.95)" }
+						}}
+					>
+						<Badge
+							badgeContent={totalLikes}
+							color="secondary"
+							showZero
+							sx={{ "& .MuiBadge-badge": { top: 4, right: 4 } }}
+						>
+							<FavoriteBorder fontSize="medium" color="primary" />
+						</Badge>
+					</IconButton>
+				</Tooltip>
+			);
 		}
 	}
 

@@ -2,7 +2,11 @@
   "name": "recipes",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "backup": "node ../scripts/backup.js",
+    "restore": "node ../scripts/restore.js",
+    "drop-db": "node ../scripts/drop_db.js",
+    "seed-db": "node ../scripts/seed_db.js"
   },
   "dependencies": {
     "aws-sdk": "^2.1338.0",

@@ -30,30 +30,51 @@ const ServingsFilter: FC = () => {
 	};
 
 	return (
-		<Box sx={{display: "flex", columnGap: 1, alignItems: "center", justifyContent: "space-between"}}>
-			<Typography variant="h6">
-				Servings
-			</Typography>
-			<Box sx={{display: "flex", columnGap: 1}}>
-				<ButtonGroup
-					sx={{display: "flex", columnGap: 1, alignItems: "center"}}
-					variant="outlined"
-					aria-label="Disabled elevation buttons"
+		<Box sx={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+			<ButtonGroup
+				variant="outlined"
+				size="small"
+				sx={{
+					'& .MuiButton-root': {
+						borderRadius: 2,
+						borderColor: 'rgba(0,0,0,0.12)',
+					}
+				}}
+			>
+				<Button 
+					onClick={handleDec} 
+					disabled={!value}
+					sx={{minWidth: 40}}
 				>
-					<Button sx={{width: 30}} disabled={!value} onClick={handleDec}>
-						<RemoveRounded fontSize="small" />
-					</Button>
-					<Typography variant="body1" sx={{textAlign: "center", minWidth: "35px"}}>
-						{value || "auto"}
-					</Typography>
-					<Button sx={{width: 30}} onClick={handleInc}>
-						<AddRounded fontSize="small" />
-					</Button>
-				</ButtonGroup>
-				<Button disabled={!value} variant="contained" onClick={handelSubmit}>
-					Ok
+					<RemoveRounded fontSize="small" />
 				</Button>
-			</Box>
+				<Box sx={{
+					minWidth: 40, 
+					display: 'flex', 
+					alignItems: 'center', 
+					justifyContent: 'center',
+					borderTop: '1px solid rgba(0,0,0,0.12)',
+					borderBottom: '1px solid rgba(0,0,0,0.12)',
+					fontWeight: 600
+				}}>
+					{value || "0"}
+				</Box>
+				<Button 
+					onClick={handleInc}
+					sx={{minWidth: 40}}
+				>
+					<AddRounded fontSize="small" />
+				</Button>
+			</ButtonGroup>
+			<Button 
+				disabled={!value} 
+				variant="contained" 
+				size="small"
+				onClick={handelSubmit}
+				sx={{borderRadius: 2, textTransform: 'none', fontWeight: 600}}
+			>
+				Apply
+			</Button>
 		</Box>
 	);
 };

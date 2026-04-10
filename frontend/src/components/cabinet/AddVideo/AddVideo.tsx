@@ -1,5 +1,6 @@
 import {ChangeEvent, FC} from "react";
-import {Alert, Box, Button, Typography} from "@mui/material";
+import {Alert, Box, Button, Typography, Paper, IconButton} from "@mui/material";
+import {Movie, Delete, VideoCall} from "@mui/icons-material";
 
 import {videoValidator} from "../../../validators";
 
@@ -25,7 +26,8 @@ const AddVideo: FC<IProps> = ({video, setError, error, setVideo}) => {
 	};
 
 	return (
-		<Box>
+		<Box sx={{width: "100%"}}>
+			<Typography variant="subtitle2" sx={{mb: 1, fontWeight: 500}}>Video (optional)</Typography>
 			<input
 				accept="video/mp4, video/webm"
 				type="file"
@@ -34,53 +36,90 @@ const AddVideo: FC<IProps> = ({video, setError, error, setVideo}) => {
 				style={{display: "none"}}
 			/>
 			{
-				video &&
-				<Box sx={{
-					position: "relative",
-					height: 150
-				}}>
-					<Box
-						component="video"
-						src={URL.createObjectURL(video)}
+				video ? (
+					<Paper
+						elevation={0}
 						sx={{
-							position: "absolute",
+							position: "relative",
 							width: "100%",
-							height: "100%",
-							top: 0,
-							left: 0,
-							objectFit: "cover"
-						}}
-					/>
-				</Box>
-			}
-			{
-				!video &&
-				<label htmlFor="add-video-input">
-					<Box
-						sx={{
-							width: "100%",
-							height: "55",
-							boxSizing: "border-box",
-							border: "2px dotted black",
-							cursor: "pointer",
-							padding: 2
+							maxWidth: "400px",
+							aspectRatio: "16/9",
+							borderRadius: 2,
+							overflow: "hidden",
+							border: "1px solid",
+							borderColor: error ? "error.main" : "divider",
+							bgcolor: "black"
 						}}
 					>
-						<Typography variant="body1">
-							Add Video
-						</Typography>
-					</Box>
-				</label>
-			}
-			{
-				video && error &&
-				<Alert severity="error">
-					{error}
-				</Alert>
-			}
-			{
-				video &&
-				<Button variant="outlined" onClick={handleRemoveVideo}>Remove</Button>
+						<Box
+							component="video"
+							src={URL.createObjectURL(video)}
+							controls
+							sx={{
+								width: "100%",
+								height: "100%",
+								objectFit: "contain"
+							}}
+						/>
+						<IconButton
+							onClick={handleRemoveVideo}
+							size="small"
+							sx={{
+								position: "absolute",
+								top: 8,
+								right: 8,
+								bgcolor: "rgba(255, 255, 255, 0.8)",
+								'&:hover': { bgcolor: "white" },
+								zIndex: 1
+							}}
+						>
+							<Delete fontSize="small" color="error" />
+						</IconButton>
+						{error && (
+							<Alert 
+								severity="error" 
+								sx={{ 
+									position: "absolute", 
+									bottom: 0, 
+									left: 0, 
+									right: 0,
+									borderRadius: 0,
+									py: 0
+								}}
+							>
+								{error}
+							</Alert>
+						)}
+					</Paper>
+				) : (
+					<label htmlFor="add-video-input">
+						<Paper
+							variant="outlined"
+							sx={{
+								width: "100%",
+								maxWidth: "400px",
+								height: 100,
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								justifyContent: "center",
+								cursor: "pointer",
+								borderRadius: 2,
+								borderStyle: "dashed",
+								borderWidth: 2,
+								bgcolor: "action.hover",
+								transition: "0.2s",
+								'&:hover': {
+									borderColor: "primary.main",
+									bgcolor: "action.selected"
+								}
+							}}
+						>
+							<VideoCall color="primary" sx={{fontSize: 32, mb: 0.5}} />
+							<Typography variant="caption" sx={{fontWeight: 500}}>Add Video Guide</Typography>
+						</Paper>
+					</label>
+				)
 			}
 		</Box>
 	);

@@ -9,7 +9,9 @@ import {
 	DialogContentText,
 	DialogTitle,
 	IconButton,
-	TextField
+	TextField,
+	Tooltip,
+	Typography
 } from "@mui/material";
 import {ReportProblem} from "@mui/icons-material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
@@ -70,17 +72,32 @@ const ReportButton: FC<IProps> = ({authorId, isReport}) => {
 			</Backdrop>
 			{
 				loginAuthor ?
-					<IconButton onClick={handleOpen}>
-						<ReportProblem color="warning" />
-					</IconButton> :
-					<IconButton onClick={() => navigate("/login")}>
-						<ReportProblem color="warning" />
-					</IconButton>
+					<Tooltip title="Report Author">
+						<IconButton onClick={handleOpen} sx={{ "&:hover": { color: "warning.main" } }}>
+							<ReportProblem color="warning" />
+						</IconButton>
+					</Tooltip> :
+					<Tooltip title="Login to report">
+						<IconButton onClick={() => navigate("/login")} sx={{ "&:hover": { color: "warning.main" } }}>
+							<ReportProblem color="warning" />
+						</IconButton>
+					</Tooltip>
 			}
-			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle>Report</DialogTitle>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				PaperProps={{
+					sx: { borderRadius: 3, p: 1, minWidth: { xs: "90%", sm: "400px" } }
+				}}
+			>
+				<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+					<ReportProblem color="warning" />
+					<Typography variant="h6" fontWeight="700">Report Author</Typography>
+				</DialogTitle>
 				<DialogContent>
-					<DialogContentText sx={{minWidth: "300px"}}>Write details about problem</DialogContentText>
+					<DialogContentText sx={{ mb: 2 }}>
+						Please provide details about why you are reporting this author. Our moderators will review it as soon as possible.
+					</DialogContentText>
 					<Box component="form" id="report-form" noValidate onSubmit={handleSubmit(onSubmit)}>
 						<Controller
 							name={"text"}
@@ -94,18 +111,30 @@ const ReportButton: FC<IProps> = ({authorId, isReport}) => {
 									autoFocus
 									required
 									margin="dense"
-									label="Description"
+									label="Reason for report"
+									placeholder="Describe the issue..."
 									type="text"
 									fullWidth
-									variant="standard"
+									multiline
+									rows={4}
+									variant="outlined"
+									sx={{ mt: 1 }}
 								/>
 							)}
 						/>
 					</Box>
 				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose}>Cancel</Button>
-					<Button form="report-form" type="submit">Send</Button>
+				<DialogActions sx={{ p: 2 }}>
+					<Button onClick={handleClose} color="inherit">Cancel</Button>
+					<Button
+						form="report-form"
+						type="submit"
+						variant="contained"
+						color="warning"
+						sx={{ borderRadius: 2, px: 3 }}
+					>
+						Send Report
+					</Button>
 				</DialogActions>
 			</Dialog>
 		</Box>

@@ -29,7 +29,7 @@ const RecipesOfAuthor: FC = () => {
 
 	return (
 		<Box sx={{display: "flex", flexDirection: "column", flexGrow: 1}}>
-			<Grid minHeight="90vh" container justifyContent="center" spacing={3}>
+			<Grid container spacing={3}>
 				{
 					error && <h2>ERROR</h2>
 				}

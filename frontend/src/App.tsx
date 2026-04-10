@@ -59,6 +59,7 @@ const App: FC = () => {
 				<Route path={"restore-password"} element={<RestorePasswordPage />} />
 				<Route element={<PrivateRouteWrapper />}>
 					<Route path={"cabinet"} element={<CabinetPage />}>
+						<Route index element={<Navigate to={"my-recipes"} />} />
 						<Route path={"profile"} element={<ProfileSettings />} />
 						<Route path={"my-recipes"} element={<MyRecipes />} />
 						<Route path={"my-book"} element={<MyBook />} />

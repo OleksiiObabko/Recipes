@@ -16,9 +16,11 @@ interface IStages {
 
 const Stages: FC<IStages> = ({stages}) => {
 	return (
-		<Box>
-			<Typography variant="h4" fontWeight={500} mb={2}>Stages</Typography>
-			<Box sx={{display: "flex", flexDirection: "column", rowGap: 3}}>
+		<Box sx={{mt: 4, mb: 4}}>
+			<Typography variant="h5" fontWeight={700} gutterBottom sx={{mb: 3, color: "primary.main"}}>
+				Cooking Stages
+			</Typography>
+			<Box sx={{display: "flex", flexDirection: "column", rowGap: 4}}>
 				{stages.map(stage =>
 					<Stage key={stage._id} stage={stage} />
 				)}

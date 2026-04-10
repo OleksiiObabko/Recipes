@@ -23,22 +23,21 @@ const SortFilterRecipes: FC = () => {
 	};
 
 	return (
-		<Box sx={{minWidth: 120}}>
-			<FormControl fullWidth>
-				<InputLabel>Sort</InputLabel>
-				<Select
-					value={sort}
-					label="Sort"
-					onChange={handleChange}
-				>
-					<MenuItem value="rating">Rating</MenuItem>
-					<MenuItem value="time">Time</MenuItem>
-					<MenuItem value="servings">Servings</MenuItem>
-					<MenuItem value="ingredients">Ingredients</MenuItem>
-					<MenuItem value="createdAt">CreatedAt</MenuItem>
-				</Select>
-			</FormControl>
-		</Box>
+		<FormControl fullWidth size="small">
+			<InputLabel>Sort By</InputLabel>
+			<Select
+				value={sort}
+				label="Sort By"
+				onChange={handleChange}
+				sx={{borderRadius: 2}}
+			>
+				<MenuItem value="rating">Rating</MenuItem>
+				<MenuItem value="time">Time</MenuItem>
+				<MenuItem value="servings">Servings</MenuItem>
+				<MenuItem value="ingredients">Ingredients</MenuItem>
+				<MenuItem value="createdAt">CreatedAt</MenuItem>
+			</Select>
+		</FormControl>
 	);
 };
 

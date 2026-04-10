@@ -1,5 +1,6 @@
 import {FC, useEffect, useState} from "react";
-import {Alert, Backdrop, Box, Button, CircularProgress, TextField} from "@mui/material";
+import {Alert, Backdrop, Box, Button, CircularProgress, TextField, Card, CardContent, Divider, Typography, Grid, Paper} from "@mui/material";
+import {CloudUpload, Timer, Groups, RestaurantMenu, Category, Add} from "@mui/icons-material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi";
 
@@ -74,13 +75,14 @@ const CreateRecipeForm: FC = () => {
 			sx={{
 				display: "flex",
 				flexDirection: "column",
-				rowGap: 1,
-				pb: 3
+				gap: 3,
+				width: "100%",
+				pb: 6
 			}}>
 			{
 				error &&
-				<Alert severity="error">
-					Error
+				<Alert severity="error" variant="filled" sx={{borderRadius: 2}}>
+					Failed to create recipe. Please check all fields.
 				</Alert>
 			}
 			<Backdrop
@@ -92,81 +94,178 @@ const CreateRecipeForm: FC = () => {
 			{
 				createdRecipeId &&
 				<Alert
-					sx={{width: "100%", boxSizing: "border-box"}}
+					sx={{width: "100%", borderRadius: 2}}
 					severity="success"
+					variant="filled"
 				>
-					Recipe has been created. Wait for moderation
+					Recipe has been created successfully and sent for moderation.
 				</Alert>
 			}
-			<Controller
-				name="title"
-				control={control}
-				render={({field: {onChange, value}, fieldState: {error}}) => (
-					<TextField
-						error={!!error}
-						helperText={error?.message}
-						value={value || ""}
-						onChange={onChange}
-						margin="dense"
-						label="Title"
-					/>
-				)}
-			/>
-			<AddPhoto photos={photos} setPhotos={setPhotos} errors={photoErrors} setErrors={setPhotoErrors} />
-			<AddVideo video={video} setVideo={setVideo} error={videoError} setError={setVideoError} />
-			<Controller
-				name="time"
-				control={control}
-				render={({field: {onChange, value}, fieldState: {error}}) => (
-					<TextField
-						type="number"
-						error={!!error}
-						helperText={error?.message}
-						value={value || ""}
-						onChange={onChange}
-						margin="dense"
-						label="Total time (min)"
-					/>
-				)}
-			/>
-			<Controller
-				name="servings"
-				control={control}
-				render={({field: {onChange, value}, fieldState: {error}}) => (
-					<TextField
-						type="number"
-						error={!!error}
-						helperText={error?.message}
-						value={value || ""}
-						onChange={onChange}
-						margin="dense"
-						label="Servings count"
-					/>
-				)}
-			/>
-			<Controller
-				name="description"
-				control={control}
-				render={({field: {onChange, value}, fieldState: {error}}) => (
-					<TextField
-						error={!!error}
-						helperText={error?.message}
-						value={value || ""}
-						onChange={onChange}
-						margin="dense"
-						label="Description"
-					/>
-				)}
-			/>
-			<CategoryForm errors={errors.category} setValue={setValue} />
-			<KitchenForm setValue={setValue} errors={errors.kitchen} />
-			<IngredientsForm setValue={setValue} name="ingredients" errors={errors.ingredients} />
-			<StageForm stages={stages} setStages={setStages} />
+
+			{/* Section: Basic Information */}
+			<Card elevation={0} sx={{borderRadius: 3, border: "1px solid", borderColor: "divider"}}>
+				<CardContent sx={{p: 3}}>
+					<Typography variant="h6" sx={{mb: 2, display: "flex", alignItems: "center", gap: 1, fontWeight: 600}}>
+						Basic Information
+					</Typography>
+					<Grid container spacing={2}>
+						<Grid item xs={12}>
+							<Controller
+								name="title"
+								control={control}
+								render={({field: {onChange, value}, fieldState: {error}}) => (
+									<TextField
+										fullWidth
+										error={!!error}
+										helperText={error?.message}
+										value={value || ""}
+										onChange={onChange}
+										label="Recipe Title"
+										variant="outlined"
+										InputProps={{
+											sx: { borderRadius: 2 }
+										}}
+									/>
+								)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<Controller
+								name="description"
+								control={control}
+								render={({field: {onChange, value}, fieldState: {error}}) => (
+									<TextField
+										fullWidth
+										multiline
+										rows={3}
+										error={!!error}
+										helperText={error?.message}
+										value={value || ""}
+										onChange={onChange}
+										label="Description"
+										variant="outlined"
+										InputProps={{
+											sx: { borderRadius: 2 }
+										}}
+									/>
+								)}
+							/>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<Controller
+								name="time"
+								control={control}
+								render={({field: {onChange, value}, fieldState: {error}}) => (
+									<TextField
+										fullWidth
+										type="number"
+										error={!!error}
+										helperText={error?.message}
+										value={value || ""}
+										onChange={onChange}
+										label="Total time (min)"
+										InputProps={{
+											startAdornment: <Timer fontSize="small" color="action" sx={{mr: 1}} />,
+											sx: { borderRadius: 2 }
+										}}
+									/>
+								)}
+							/>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<Controller
+								name="servings"
+								control={control}
+								render={({field: {onChange, value}, fieldState: {error}}) => (
+									<TextField
+										fullWidth
+										type="number"
+										error={!!error}
+										helperText={error?.message}
+										value={value || ""}
+										onChange={onChange}
+										label="Servings count"
+										InputProps={{
+											startAdornment: <Groups fontSize="small" color="action" sx={{mr: 1}} />,
+											sx: { borderRadius: 2 }
+										}}
+									/>
+								)}
+							/>
+						</Grid>
+					</Grid>
+				</CardContent>
+			</Card>
+
+			{/* Section: Classification */}
+			<Card elevation={0} sx={{borderRadius: 3, border: "1px solid", borderColor: "divider"}}>
+				<CardContent sx={{p: 3}}>
+					<Typography variant="h6" sx={{mb: 2, display: "flex", alignItems: "center", gap: 1, fontWeight: 600}}>
+						Categories
+					</Typography>
+					<Grid container spacing={2}>
+						<Grid item xs={12} sm={6}>
+							<CategoryForm errors={errors.category} setValue={setValue} />
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<KitchenForm setValue={setValue} errors={errors.kitchen} />
+						</Grid>
+					</Grid>
+				</CardContent>
+			</Card>
+
+			{/* Section: Media */}
+			<Card elevation={0} sx={{borderRadius: 3, border: "1px solid", borderColor: "divider"}}>
+				<CardContent sx={{p: 3}}>
+					<Typography variant="h6" sx={{mb: 2, display: "flex", alignItems: "center", gap: 1, fontWeight: 600}}>
+						Photos & Video
+					</Typography>
+					<Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
+						<AddPhoto photos={photos} setPhotos={setPhotos} errors={photoErrors} setErrors={setPhotoErrors} />
+						<Divider sx={{my: 1}} />
+						<AddVideo video={video} setVideo={setVideo} error={videoError} setError={setVideoError} />
+					</Box>
+				</CardContent>
+			</Card>
+
+			{/* Section: Ingredients */}
+			<Card elevation={0} sx={{borderRadius: 3, border: "1px solid", borderColor: "divider"}}>
+				<CardContent sx={{p: 3}}>
+					<Typography variant="h6" sx={{mb: 2, display: "flex", alignItems: "center", gap: 1, fontWeight: 600}}>
+						Ingredients
+					</Typography>
+					<IngredientsForm setValue={setValue} name="ingredients" errors={errors.ingredients} />
+				</CardContent>
+			</Card>
+
+			{/* Section: Cooking Steps */}
+			<Card elevation={0} sx={{borderRadius: 3, border: "1px solid", borderColor: "divider"}}>
+				<CardContent sx={{p: 3}}>
+					<Typography variant="h6" sx={{mb: 2, display: "flex", alignItems: "center", gap: 1, fontWeight: 600}}>
+						Cooking Stages
+					</Typography>
+					<StageForm stages={stages} setStages={setStages} />
+				</CardContent>
+			</Card>
+
 			<Button
 				disabled={isValid()}
 				type="submit"
 				variant="contained"
-			>Create</Button>
+				size="large"
+				sx={{
+					borderRadius: 3,
+					py: 1.5,
+					fontWeight: 600,
+					boxShadow: "0 4px 12px rgba(25, 118, 210, 0.2)",
+					'&:hover': {
+						boxShadow: "0 6px 16px rgba(25, 118, 210, 0.3)"
+					}
+				}}
+				startIcon={<Add />}
+			>
+				Create Recipe
+			</Button>
 		</Box>
 	);
 };

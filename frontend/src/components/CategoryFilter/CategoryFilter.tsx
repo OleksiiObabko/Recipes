@@ -32,8 +32,8 @@ const CategoryFilter: FC = () => {
 			loading={true}
 			noOptionsText="admin must create categories"
 			options={titles}
-			renderInput={(titles) => (
-				<TextField {...titles} label="Category" variant="standard" />
+			renderInput={(params) => (
+				<TextField {...params} label="Category" variant="outlined" size="small" InputProps={{...params.InputProps, sx: {borderRadius: 2}}} />
 			)}
 			value={query.get("category")}
 			onChange={handleChange}

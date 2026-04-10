@@ -26,7 +26,7 @@ const Recipes: FC = () => {
 
 	return (
 		<Box sx={{display: "flex", flexDirection: "column", flexGrow: 1}}>
-			<Grid minHeight="90vh" container justifyContent="center" spacing={3}>
+			<Grid container spacing={3}>
 				{
 					error && <h2>ERROR</h2>
 				}
@@ -43,7 +43,9 @@ const Recipes: FC = () => {
 					)
 				}
 			</Grid>
-			<MyPagination count={list.count} />
+			<Box sx={{mt: 4, display: "flex", justifyContent: "center"}}>
+				<MyPagination count={list.count} />
+			</Box>
 		</Box>
 	);
 };

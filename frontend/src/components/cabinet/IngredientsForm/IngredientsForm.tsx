@@ -1,5 +1,6 @@
 import {ChangeEvent, FC, useState} from "react";
-import {Box, Button, Chip, TextField, Typography} from "@mui/material";
+import {Box, Button, Chip, TextField, Typography, InputAdornment, IconButton} from "@mui/material";
+import {Add} from "@mui/icons-material";
 import {FieldError, Merge, UseControllerProps} from "react-hook-form";
 
 import {ICreateRecipe} from "../../../interfaces";
@@ -18,48 +19,65 @@ const IngredientsForm: FC<IProps> = ({setValue, errors}) => {
 	};
 
 	const handleAddIngredient = () => {
-		setIngredients(prevState => [...prevState, currentValue]);
-		setValue("ingredients", [...ingredients, currentValue], {shouldValidate: true});
+		if (!currentValue.trim()) return;
+		const newIngredients = [...ingredients, currentValue.trim()];
+		setIngredients(newIngredients);
+		setValue("ingredients", newIngredients, {shouldValidate: true});
 		setCurrentValue("");
 	};
 
-	const handleDelIngredient = (item: string, index: number) => {
-		ingredients.splice(index, 1);
-		setValue("ingredients", ingredients, {shouldValidate: true});
-		setIngredients(ingredients);
+	const handleDelIngredient = (index: number) => {
+		const newIngredients = ingredients.filter((_, i) => i !== index);
+		setIngredients(newIngredients);
+		setValue("ingredients", newIngredients, {shouldValidate: true});
 	};
 
 	return (
-		<Box sx={{display: "flex", flexDirection: "column", rowGap: 1}}>
-			{
-				ingredients.map((ingredient, index) =>
-					<Box
+		<Box sx={{display: "flex", flexDirection: "column", rowGap: 2}}>
+			<Box sx={{display: "flex", flexWrap: "wrap", gap: 1, minHeight: ingredients.length ? "auto" : 0}}>
+				{ingredients.map((ingredient, index) => (
+					<Chip
 						key={index}
-						sx={{
-							display: "flex",
-							alignItems: "center",
-							columnGap: 1
-						}}
-					>
-						<Typography variant="body1">{index + 1}: </Typography>
-						<Chip
-							onDelete={() => handleDelIngredient(ingredient, index)}
-							key={index} size="medium"
-							label={ingredient}
-							color={errors?.length && errors[index]?.message ? "error" : "default"}
-						/>
-					</Box>
-				)}
-			<Box sx={{display: "flex", alignItems: "center", columnGap: 1}}>
-				<TextField
-					error={!!errors}
-					value={currentValue}
-					onChange={handleChange}
-					margin="dense"
-					label="Add Ingredient"
-				/>
-				<Button disabled={!currentValue} onClick={handleAddIngredient} variant="outlined">add</Button>
+						label={ingredient}
+						onDelete={() => handleDelIngredient(index)}
+						color={errors && (errors as any)[index] ? "error" : "primary"}
+						variant="outlined"
+						sx={{borderRadius: 2, fontWeight: 500}}
+					/>
+				))}
 			</Box>
+			
+			<TextField
+				fullWidth
+				value={currentValue}
+				onChange={handleChange}
+				onKeyPress={(e) => {
+					if (e.key === 'Enter') {
+						e.preventDefault();
+						handleAddIngredient();
+					}
+				}}
+				placeholder="e.g. 2 eggs"
+				label="Add Ingredient"
+				variant="outlined"
+				error={!!errors && !ingredients.length}
+				helperText={!!errors && !ingredients.length ? "At least one ingredient is required" : ""}
+				InputProps={{
+					sx: { borderRadius: 2 },
+					endAdornment: (
+						<InputAdornment position="end">
+							<IconButton 
+								onClick={handleAddIngredient} 
+								disabled={!currentValue.trim()}
+								color="primary"
+								edge="end"
+							>
+								<Add />
+							</IconButton>
+						</InputAdornment>
+					)
+				}}
+			/>
 		</Box>
 	);
 };

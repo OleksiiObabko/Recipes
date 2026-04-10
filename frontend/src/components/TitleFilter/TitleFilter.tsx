@@ -1,6 +1,7 @@
 import {ChangeEvent, FC, useEffect, useState} from "react";
-import {Box, Button, TextField} from "@mui/material";
+import {IconButton, InputAdornment, TextField} from "@mui/material";
 import {useNavigate, useSearchParams} from "react-router-dom";
+import SearchIcon from '@mui/icons-material/Search';
 
 const TitleFilter: FC = () => {
 	const navigate = useNavigate();
@@ -12,12 +13,7 @@ const TitleFilter: FC = () => {
 	}, [query]);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const value = e.currentTarget.value;
-		if (value) {
-			setCurrValue(value);
-		} else {
-			setCurrValue("");
-		}
+		setCurrValue(e.currentTarget.value);
 	};
 
 	const handleClick = () => {
@@ -25,25 +21,36 @@ const TitleFilter: FC = () => {
 			query.set("title", currValue);
 		} else {
 			query.delete("title");
-			setCurrValue("");
 		}
 		navigate({search: query.toString()});
 	};
 
+	const handleKeyPress = (e: React.KeyboardEvent) => {
+		if (e.key === 'Enter') {
+			handleClick();
+		}
+	};
+
 	return (
-		<Box
-			sx={{display: "flex", columnGap: 1, alignItems: "flex-end"}}
-		>
-			<TextField
-				sx={{flexGrow: 1}}
-				id="standard-basic"
-				label="Title"
-				value={currValue}
-				variant="standard"
-				onChange={handleChange}
-			/>
-			<Button disabled={!currValue} variant="contained" onClick={handleClick}>Ok</Button>
-		</Box>
+		<TextField
+			fullWidth
+			size="small"
+			label="Recipe Title"
+			value={currValue}
+			variant="outlined"
+			onChange={handleChange}
+			onKeyPress={handleKeyPress}
+			InputProps={{
+				endAdornment: (
+					<InputAdornment position="end">
+						<IconButton onClick={handleClick} edge="end" size="small" color="primary">
+							<SearchIcon />
+						</IconButton>
+					</InputAdornment>
+				),
+				sx: {borderRadius: 2}
+			}}
+		/>
 	);
 };
 

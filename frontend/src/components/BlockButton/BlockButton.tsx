@@ -10,7 +10,9 @@ import {
 	TextField,
 	DialogContentText,
 	DialogTitle,
-	IconButton
+	IconButton,
+	Tooltip,
+	Typography
 } from "@mui/material";
 import {RemoveCircle} from "@mui/icons-material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
@@ -67,13 +69,26 @@ const BlockButton: FC<IProps> = ({authorId, isBlock}) => {
 			>
 				<CircularProgress color="inherit" />
 			</Backdrop>
-			<IconButton onClick={handleOpen}>
-				<RemoveCircle color="error" />
-			</IconButton>
-			<Dialog open={open} onClose={handleClose}>
-				<DialogTitle>Block</DialogTitle>
+			<Tooltip title="Block Author (Admin)">
+				<IconButton onClick={handleOpen} sx={{ "&:hover": { color: "error.main" } }}>
+					<RemoveCircle color="error" />
+				</IconButton>
+			</Tooltip>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				PaperProps={{
+					sx: { borderRadius: 3, p: 1, minWidth: { xs: "90%", sm: "400px" } }
+				}}
+			>
+				<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+					<RemoveCircle color="error" />
+					<Typography variant="h6" fontWeight="700">Block Author</Typography>
+				</DialogTitle>
 				<DialogContent>
-					<DialogContentText sx={{minWidth: "300px"}}>Block author</DialogContentText>
+					<DialogContentText sx={{ mb: 2 }}>
+						Enter the number of days you want to block this author for. They will be unable to perform most actions until the block expires.
+					</DialogContentText>
 					<Box component="form" id="block-form" noValidate onSubmit={handleSubmit(onSubmit)}>
 						<Controller
 							name={"days"}
@@ -88,17 +103,28 @@ const BlockButton: FC<IProps> = ({authorId, isBlock}) => {
 									autoFocus
 									required
 									margin="dense"
-									label="Days"
+									label="Duration (days)"
+									placeholder="e.g. 7"
 									fullWidth
-									variant="standard"
+									variant="outlined"
+									InputProps={{ inputProps: { min: 1 } }}
+									sx={{ mt: 1 }}
 								/>
 							)}
 						/>
 					</Box>
 				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleClose}>Cancel</Button>
-					<Button form="block-form" type="submit">Block</Button>
+				<DialogActions sx={{ p: 2 }}>
+					<Button onClick={handleClose} color="inherit">Cancel</Button>
+					<Button
+						form="block-form"
+						type="submit"
+						variant="contained"
+						color="error"
+						sx={{ borderRadius: 2, px: 3 }}
+					>
+						Block Author
+					</Button>
 				</DialogActions>
 			</Dialog>
 		</Box>

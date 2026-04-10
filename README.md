@@ -118,3 +118,30 @@ Select frontend directory `cd .\frontend`
 Run `npm run start`
 
 Open [http://localhost:3000](http://localhost:3000) in browser
+
+### Database Backup & Restore
+
+To use these scripts, make sure you have [MongoDB Database Tools](https://www.mongodb.com/try/download/database-tools) installed.
+
+1.  Select backend directory: `cd .\api`
+2.  **To create a backup**:
+    ```bash
+    npm run backup
+    ```
+    Backups are stored in `mongo_db/backups/`.
+3.  **To restore from a backup**:
+    ```bash
+    # See available backups
+    npm run restore
+    # Restore specific backup
+    npm run restore -- backup-folder-name
+    ```
+4.  **To drop the database**:
+    ```bash
+    npm run drop-db
+    ```
+5.  **To seed the database with initial data**:
+    ```bash
+    npm run seed-db
+    ```
+    This will create default roles, categories, kitchens, a test admin (`admin@recipes.com` / `admin123`), and sample recipes.

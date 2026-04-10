@@ -23,19 +23,18 @@ const SortTypeFilter: FC = () => {
 	};
 
 	return (
-		<Box sx={{minWidth: 120}}>
-			<FormControl fullWidth>
-				<InputLabel>Sort Type</InputLabel>
-				<Select
-					value={sortType}
-					label="Sort"
-					onChange={handleChange}
-				>
-					<MenuItem value="-1">From big to small</MenuItem>
-					<MenuItem value="1">From small to big</MenuItem>
-				</Select>
-			</FormControl>
-		</Box>
+		<FormControl fullWidth size="small">
+			<InputLabel>Order</InputLabel>
+			<Select
+				value={sortType}
+				label="Order"
+				onChange={handleChange}
+				sx={{borderRadius: 2}}
+			>
+				<MenuItem value="-1">Descending</MenuItem>
+				<MenuItem value="1">Ascending</MenuItem>
+			</Select>
+		</FormControl>
 	);
 };
 

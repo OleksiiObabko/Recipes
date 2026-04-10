@@ -27,7 +27,7 @@ const CarouselSlider: FC<IProps> = ({gallery}) => {
 					color: "#1976d2"
 				}
 			}}
-			height={300}
+			height={400}
 			animation="slide"
 			stopAutoPlayOnHover={true}
 			navButtonsAlwaysVisible={true}
@@ -42,10 +42,13 @@ const CarouselSlider: FC<IProps> = ({gallery}) => {
 				return (
 					<Paper
 						key={_id}
-						elevation={0}
+						elevation={4}
 						sx={{
-							height: 300,
-							position: "relative"
+							height: 400,
+							position: "relative",
+							borderRadius: 3,
+							overflow: "hidden",
+							bgcolor: "black"
 						}}
 					>
 						{isVideo ? (

@@ -36,16 +36,20 @@ const KitchenForm: FC<IProps> = ({setValue, errors}) => {
 	return (
 		<Autocomplete
 			blurOnSelect
-			loading={true}
+			loading={!kitchens.length}
 			options={titles}
 			value={currentValue}
 			onInputChange={handleChange}
-			renderInput={(titles) => (
+			sx={{
+				'& .MuiOutlinedInput-root': {
+					borderRadius: 2
+				}
+			}}
+			renderInput={(params) => (
 				<TextField
 					error={!!errors}
 					helperText={errors?.message}
-					{...titles}
-					value={currentValue}
+					{...params}
 					label="Kitchen"
 					variant="outlined" />
 			)}

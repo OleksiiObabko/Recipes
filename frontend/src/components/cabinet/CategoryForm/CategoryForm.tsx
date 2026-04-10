@@ -36,16 +36,20 @@ const CategoryForm: FC<IProps> = ({setValue, errors}) => {
 	return (
 		<Autocomplete
 			blurOnSelect
-			loading={true}
+			loading={!categories.length}
 			options={titles}
 			value={currentValue}
 			onInputChange={handleChange}
-			renderInput={(titles) => (
+			sx={{
+				'& .MuiOutlinedInput-root': {
+					borderRadius: 2
+				}
+			}}
+			renderInput={(params) => (
 				<TextField
 					error={!!errors}
 					helperText={errors?.message}
-					{...titles}
-					value={currentValue}
+					{...params}
 					label="Category"
 					variant="outlined" />
 			)}

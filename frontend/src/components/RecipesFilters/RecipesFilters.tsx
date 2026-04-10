@@ -9,8 +9,8 @@ import {TitleFilter} from "../TitleFilter/TitleFilter";
 import {IngredientsFilter} from "../IngredientsFilter/IngredientsFilter";
 import {TimeFilter} from "../TimeFilter/TimeFilter";
 import {ServingsFilter} from "../SevringsFilter/ServingsFilter";
-import {SortTypeFilter} from "../SortTypeFilter/SortTypeFilter";
 import {SortFilterRecipes} from "../SortFilterRecipes/SortFilterRecipes";
+import {SortTypeFilter} from "../SortTypeFilter/SortTypeFilter";
 
 const RecipesFilters: FC = () => {
 	const [query] = useSearchParams();
@@ -28,26 +28,57 @@ const RecipesFilters: FC = () => {
 	};
 
 	return (
-		<Card sx={{position: "sticky", alignSelf: "flex-start", top: 0, left: 0, padding: 2, boxShadow: 3}}>
-			<Typography variant="h6" sx={{mb: 2, textAlign: "center"}}>
-				Filter Recipes
+		<Card sx={{
+			position: "sticky",
+			alignSelf: "flex-start",
+			top: 16,
+			padding: 3,
+			boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+			borderRadius: 4,
+			width: 320,
+			border: "1px solid rgba(0,0,0,0.05)"
+		}}>
+			<Typography variant="h5" sx={{mb: 3, fontWeight: 700, color: "primary.main", letterSpacing: "-0.5px"}}>
+				Filters
 			</Typography>
-			<Stack spacing={2} sx={{width: "100%", display: "flex", flexDirection: "column", rowGap: 2, mb: 2}}>
+			<Stack spacing={3} sx={{mb: 3}}>
+				<TitleFilter />
 				<CategoryFilter />
 				<KitchenFilter />
-				<TitleFilter />
 				<IngredientsFilter />
-				<TimeFilter />
-				<ServingsFilter />
-				<SortFilterRecipes />
-				<SortTypeFilter />
+				
+				<Box>
+					<Typography variant="subtitle2" sx={{mb: 1, fontWeight: 600, color: "text.secondary"}}>
+						Cooking Time (min)
+					</Typography>
+					<TimeFilter />
+				</Box>
+
+				<Box>
+					<Typography variant="subtitle2" sx={{mb: 1, fontWeight: 600, color: "text.secondary"}}>
+						Servings
+					</Typography>
+					<ServingsFilter />
+				</Box>
+
+				<Box sx={{pt: 2, borderTop: "1px solid rgba(0,0,0,0.05)"}}>
+					<Typography variant="subtitle2" sx={{mb: 2, fontWeight: 600, color: "text.secondary"}}>
+						Sorting
+					</Typography>
+					<Stack spacing={2}>
+						<SortFilterRecipes />
+						<SortTypeFilter />
+					</Stack>
+				</Box>
 			</Stack>
 			<Button
+				fullWidth
 				disabled={!query.toString()}
-				variant="contained"
-				color="secondary"
+				variant="outlined"
+				color="error"
 				onClick={handleClear}
 				startIcon={<ClearIcon />}
+				sx={{borderRadius: 2, textTransform: "none", fontWeight: 600}}
 			>
 				Clear all filters
 			</Button>

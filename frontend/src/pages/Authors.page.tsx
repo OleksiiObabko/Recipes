@@ -1,14 +1,18 @@
 import {FC} from "react";
-import {Container} from "@mui/material";
+import {Container, Box} from "@mui/material";
 
 import {Authors, AuthorsFilters} from "../components";
 
 const AuthorsPage: FC = () => {
 	return (
-		<Container sx={{display: "flex", columnGap: 3}} maxWidth={"xl"}>
-			<AuthorsFilters />
-			<Authors />
-		</Container>
+		<Box sx={{backgroundColor: "#fcfcfc", minHeight: "100vh", pt: 4, pb: 8}}>
+			<Container sx={{position: "relative", columnGap: 4, display: "flex"}} maxWidth={"xl"}>
+				<AuthorsFilters />
+				<Box sx={{flexGrow: 1}}>
+					<Authors />
+				</Box>
+			</Container>
+		</Box>
 	);
 };
 

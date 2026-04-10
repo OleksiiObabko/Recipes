@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Box, Typography} from "@mui/material";
+import {Box, Typography, Paper, Chip} from "@mui/material";
 
 interface IStage {
 	stage: {
@@ -14,32 +14,61 @@ const Stage: FC<IStage> = ({stage}) => {
 	const {number, photo, description} = stage;
 
 	return (
-		<Box sx={{display: "flex", flexDirection: "column", rowGap: 0.5}}>
-			<Box display="flex" columnGap={1}>
-				<Typography variant="h6" fontWeight={500}>Step</Typography>
-				<Typography variant="h6" fontWeight={500}>{number}</Typography>
-			</Box>
-			<Typography variant="body1" maxWidth={300}>{description}</Typography>
-			{photo &&
-				<Box sx={{
-					position: "relative",
-					height: 300
-				}}>
-					<Box
-						component="img"
-						src={photo}
+		<Paper
+			elevation={0}
+			sx={{
+				p: 3,
+				borderRadius: 3,
+				bgcolor: "background.paper",
+				border: "1px solid",
+				borderColor: "divider",
+				position: "relative",
+				overflow: "hidden"
+			}}
+		>
+			<Box sx={{display: "flex", flexDirection: {xs: "column", md: "row"}, gap: 3}}>
+				<Box sx={{flex: 1}}>
+					<Box display="flex" alignItems="center" mb={2} gap={1.5}>
+						<Chip
+							label={`Step ${number}`}
+							color="primary"
+							sx={{fontWeight: 700, borderRadius: 1.5}}
+						/>
+					</Box>
+					<Typography
+						variant="body1"
 						sx={{
-							position: "absolute",
-							width: "100%",
-							height: "100%",
-							top: 0,
-							left: 0,
-							objectFit: "cover"
+							fontSize: "1.1rem",
+							lineHeight: 1.7,
+							color: "text.primary"
 						}}
-					/>
+					>
+						{description}
+					</Typography>
 				</Box>
-			}
-		</Box>
+				{photo && (
+					<Box
+						sx={{
+							flex: {xs: "none", md: "0 0 300px"},
+							height: 200,
+							borderRadius: 2,
+							overflow: "hidden",
+							boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+						}}
+					>
+						<Box
+							component="img"
+							src={photo}
+							sx={{
+								width: "100%",
+								height: "100%",
+								objectFit: "cover"
+							}}
+						/>
+					</Box>
+				)}
+			</Box>
+		</Paper>
 	);
 };
 

@@ -31,8 +31,8 @@ const KitchenFilter: FC = () => {
 			blurOnSelect
 			loading={true}
 			options={titles}
-			renderInput={(titles) => (
-				<TextField {...titles} label="Kitchen" variant="standard" />
+			renderInput={(params) => (
+				<TextField {...params} label="Kitchen" variant="outlined" size="small" InputProps={{...params.InputProps, sx: {borderRadius: 2}}} />
 			)}
 			value={query.get("kitchen")}
 			onChange={handleChange}

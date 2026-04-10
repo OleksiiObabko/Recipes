@@ -23,19 +23,18 @@ const SortFilterAuthors: FC = () => {
 	};
 
 	return (
-		<Box sx={{minWidth: 120}}>
-			<FormControl fullWidth>
-				<InputLabel>Sort</InputLabel>
-				<Select
-					value={sort}
-					label="Sort"
-					onChange={handleChange}
-				>
-					<MenuItem value="totalLikes">Total Likes</MenuItem>
-					<MenuItem value="userName">User Name</MenuItem>
-				</Select>
-			</FormControl>
-		</Box>
+		<FormControl fullWidth size="small">
+			<InputLabel>Sort By</InputLabel>
+			<Select
+				value={sort}
+				label="Sort By"
+				onChange={handleChange}
+				sx={{borderRadius: 2}}
+			>
+				<MenuItem value="totalLikes">Total Likes</MenuItem>
+				<MenuItem value="userName">User Name</MenuItem>
+			</Select>
+		</FormControl>
 	);
 };
 
