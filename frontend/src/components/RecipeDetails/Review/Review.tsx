@@ -41,7 +41,7 @@ const Review: FC<IProps> = ({review, setDeletedReview}) => {
 			</Backdrop>
 			<Box sx={{display: "flex", alignItems: "center", justifyContent: "space-between", columnGap: 2}}>
 				<Box sx={{display: "flex", alignItems: "center", columnGap: 2}}>
-					<Avatar src={owner.avatar ? owner.avatar : "/broken-image.jpg"} />
+					<Avatar src={owner.avatar || undefined} />
 					<Typography variant="h6">{owner.userName}</Typography>
 				</Box>
 				{

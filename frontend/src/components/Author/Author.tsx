@@ -83,7 +83,7 @@ const Author: FC<IProps> = ({author}) => {
 				<CardContent sx={{p: 3, flexGrow: 1, display: "flex", flexDirection: "column"}}>
 					<Box sx={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 2}}>
 						<Avatar
-							src={avatar || "/broken-image.jpg"}
+							src={avatar || undefined}
 							sx={{
 								width: 64,
 								height: 64,

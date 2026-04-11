@@ -98,7 +98,7 @@ const ProfileSettings: FC = () => {
 					render={({field: {onChange}}) => (
 						<Stack direction={{xs: "column", sm: "row"}} spacing={3} alignItems="center">
 							<Avatar
-								src={avatar ? URL.createObjectURL(avatar) : (loginAuthor?.avatar || "/broken-image.jpg")}
+								src={avatar ? URL.createObjectURL(avatar) : (loginAuthor?.avatar || undefined)}
 								sx={{width: 120, height: 120, border: "4px solid #fff", boxShadow: "0 4px 12px rgba(0,0,0,0.1)"}}
 							/>
 							<Box>

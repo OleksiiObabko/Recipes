@@ -92,7 +92,7 @@ const AuthorInfo: FC<IProps> = ({author}) => {
 								}
 							>
 								<Avatar
-									src={avatar || "/broken-image.jpg"}
+									src={avatar || undefined}
 									sx={{
 										width: {xs: 100, md: 120},
 										height: {xs: 100, md: 120},

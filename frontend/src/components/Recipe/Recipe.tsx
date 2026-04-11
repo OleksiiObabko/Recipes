@@ -245,7 +245,7 @@ const Recipe: FC<IProps> = ({recipe, showModerateButton = false, showDeleteButto
 									onClick={() => navigate(`/authors/${creator._id}`)}
 								>
 									<Avatar
-										src={avatar || "/broken-image.jpg"}
+										src={avatar || undefined}
 										sx={{width: 28, height: 28, border: "1px solid rgba(0,0,0,0.05)"}}
 									/>
 									<Box sx={{minWidth: 0, flexGrow: 1}}>

@@ -78,11 +78,11 @@ const Header: FC = () => {
 							}
 							{
 								loginAuthor && !loginAuthor?.avatar && !loading &&
-								<Avatar onClick={() => handleNav("/cabinet")} src="static/images/cards/paella.jpg" />
+								<Avatar onClick={() => handleNav("/cabinet")} />
 							}
 							{
 								!loginAuthor && !loading &&
-								<Avatar onClick={() => handleNav("/login")} src="static/images/cards/paella.jpg" />
+								<Avatar onClick={() => handleNav("/login")} />
 							}
 						</MenuItem>
 						{
