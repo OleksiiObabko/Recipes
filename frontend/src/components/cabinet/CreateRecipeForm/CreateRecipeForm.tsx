@@ -1,5 +1,5 @@
 import {FC, useEffect, useState} from "react";
-import {Alert, Backdrop, Box, Button, CircularProgress, TextField, Card, CardContent, Divider, Typography, Grid, Paper} from "@mui/material";
+import {Alert, Backdrop, Box, Button, CircularProgress, TextField, Card, CardContent, Divider, Typography, Grid, Snackbar} from "@mui/material";
 import {CloudUpload, Timer, Groups, RestaurantMenu, Category, Add} from "@mui/icons-material";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {joiResolver} from "@hookform/resolvers/joi";
@@ -39,6 +39,20 @@ const CreateRecipeForm: FC = () => {
 	const [videoError, setVideoError] = useState<string | undefined>(undefined);
 
 	const [stages, setStages] = useState<ICreateStage[]>([]);
+	const [openSnackbar, setOpenSnackbar] = useState(false);
+
+	useEffect(() => {
+		if (createdRecipeId) {
+			setOpenSnackbar(true);
+		}
+	}, [createdRecipeId]);
+
+	const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+		setOpenSnackbar(false);
+	};
 
 	useEffect(() => {
 		if (createdRecipeId && photos.length) {
@@ -91,16 +105,22 @@ const CreateRecipeForm: FC = () => {
 			>
 				<CircularProgress color="inherit" />
 			</Backdrop>
-			{
-				createdRecipeId &&
-				<Alert
-					sx={{width: "100%", borderRadius: 2}}
-					severity="success"
-					variant="filled"
+
+			<Snackbar
+				open={openSnackbar}
+				autoHideDuration={6000}
+				onClose={handleCloseSnackbar}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+			>
+				<Alert 
+					onClose={handleCloseSnackbar} 
+					severity="success" 
+					variant="filled" 
+					sx={{ width: '100%', borderRadius: 2 }}
 				>
 					Recipe has been created successfully and sent for moderation.
 				</Alert>
-			}
+			</Snackbar>
 
 			{/* Section: Basic Information */}
 			<Card elevation={0} sx={{borderRadius: 3, border: "1px solid", borderColor: "divider"}}>

@@ -16,12 +16,12 @@ const initialState: IState = {
 	errorMessage: null
 };
 
-const moderateRecipe = createAsyncThunk<void, string, { rejectValue: IErrorResponse }>(
+const moderateRecipe = createAsyncThunk<string, string, { rejectValue: IErrorResponse }>(
 	"moderationSlice/moderateRecipe",
-	async (authorId, {rejectWithValue}) => {
+	async (recipeId, {rejectWithValue}) => {
 		try {
-			const {data} = await recipeService.moderate(authorId);
-			return data;
+			await recipeService.moderate(recipeId);
+			return recipeId;
 		} catch (e) {
 			const err = e as AxiosError<IErrorResponse>;
 			return rejectWithValue(err.response!.data);

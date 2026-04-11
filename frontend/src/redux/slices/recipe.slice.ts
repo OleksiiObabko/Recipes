@@ -3,6 +3,7 @@ import {AxiosError} from "axios";
 
 import {IRecipesQuery, IRecipe, IRecipes, IReview, IMyRecipes, ICreateRecipe} from "../../interfaces";
 import {recipeService} from "../../services";
+import {moderationActions} from "./moderation.slice";
 
 interface IState {
 	list: IRecipes;
@@ -164,6 +165,10 @@ const recipeSlice = createSlice({
 		},
 		decBookCountId: state => {
 			if (state.recipe) state.recipe.bookCount -= 1;
+		},
+		clearRecipe: state => {
+			state.recipe = null;
+			state.reviews = null;
 		}
 	},
 	extraReducers: builder =>
@@ -267,6 +272,11 @@ const recipeSlice = createSlice({
 				state.deleted = false;
 				state.loading = false;
 			})
+			// moderateRecipe
+			.addCase(moderationActions.moderateRecipe.fulfilled, (state, action) => {
+				state.list.recipes = state.list.recipes.filter(recipe => recipe._id !== action.payload);
+				state.list.count = Math.max(0, state.list.count - 1);
+			})
 });
 
 const {
@@ -278,7 +288,8 @@ const {
 		decBookCount,
 		bookToggleId,
 		incBookCountId,
-		decBookCountId
+		decBookCountId,
+		clearRecipe
 	}
 } = recipeSlice;
 
@@ -296,7 +307,8 @@ const recipeActions = {
 	decBookCount,
 	bookToggleId,
 	incBookCountId,
-	decBookCountId
+	decBookCountId,
+	clearRecipe
 };
 
 export {

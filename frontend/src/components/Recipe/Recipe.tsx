@@ -1,6 +1,5 @@
 import {FC} from "react";
 import {
-	Alert,
 	Avatar, Box,
 	Button,
 	Card,
@@ -8,7 +7,7 @@ import {
 	CardMedia,
 	Grid,
 	Paper,
-	Rating, Snackbar,
+	Rating,
 	Typography,
 	Chip,
 	Stack,
@@ -239,7 +238,7 @@ const Recipe: FC<IProps> = ({recipe, showModerateButton = false, showDeleteButto
 
 					<Box sx={{mt: "auto"}}>
 						<Divider sx={{mb: 2, opacity: 0.6}} />
-						<Box sx={{display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2}}>
+						<Box sx={{display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 2}}>
 							{creator && (
 								<Box
 									sx={{display: "flex", alignItems: "center", gap: 1, cursor: "pointer", minWidth: 0, flexShrink: 1}}
@@ -267,7 +266,7 @@ const Recipe: FC<IProps> = ({recipe, showModerateButton = false, showDeleteButto
 								</Box>
 							)}
 							
-							<Stack direction="row" spacing={1}>
+							<Stack direction="row" spacing={1} sx={{ flexShrink: 0 }}>
 								{showModerateButton && (
 									<Button
 										disabled={loading}
@@ -291,17 +290,6 @@ const Recipe: FC<IProps> = ({recipe, showModerateButton = false, showDeleteButto
 							</Stack>
 						</Box>
 					</Box>
-
-					<Snackbar open={statusCode === 200} autoHideDuration={3000}>
-						<Alert severity="success" sx={{width: "100%"}}>
-							Recipe has been moderated
-						</Alert>
-					</Snackbar>
-					<Snackbar open={!!errorMessage} autoHideDuration={3000}>
-						<Alert severity="error" sx={{width: "100%"}}>
-							{errorMessage}
-						</Alert>
-					</Snackbar>
 				</CardContent>
 			</Card>
 		</Grid>

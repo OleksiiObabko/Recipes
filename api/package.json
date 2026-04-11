@@ -2,6 +2,7 @@
   "name": "recipes",
   "version": "1.0.0",
   "scripts": {
+    "start": "node app.js",
     "dev": "nodemon app.js",
     "backup": "node ../scripts/backup.js",
     "restore": "node ../scripts/restore.js",

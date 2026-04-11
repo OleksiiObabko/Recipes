@@ -30,6 +30,8 @@ const AuthorsFilters: FC = () => {
 			boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
 			borderRadius: 4,
 			width: 320,
+			minWidth: 320,
+			flexShrink: 0,
 			border: "1px solid rgba(0,0,0,0.05)"
 		}}>
 			<Typography variant="h5" sx={{mb: 3, fontWeight: 700, color: "primary.main", letterSpacing: "-0.5px"}}>

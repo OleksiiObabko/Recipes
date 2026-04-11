@@ -23,6 +23,10 @@ const RecipeDetailsPage: FC = () => {
 
 	useEffect(() => {
 		dispatch(recipeActions.getById(id as string));
+		
+		return () => {
+			dispatch(recipeActions.clearRecipe());
+		};
 	}, [dispatch, id]);
 
 	return (

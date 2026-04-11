@@ -1,6 +1,6 @@
-import {FC, useEffect} from "react";
+import {FC, useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
-import {Box, Grid, Typography} from "@mui/material";
+import {Box, Grid, Typography, Snackbar, Alert} from "@mui/material";
 import {AssignmentTurnedIn} from "@mui/icons-material";
 
 import {useAppDispatch, useAppSelector} from "../../../hooks";
@@ -12,7 +12,29 @@ import {MyPagination} from "../../MyPagingation/MyPagination";
 const ModerationList: FC = () => {
 	const dispatch = useAppDispatch();
 	const {list, loading, error} = useAppSelector(state => state.recipeReducer);
+	const {statusCode, errorMessage} = useAppSelector(state => state.moderationReducer);
 	const [searchParams] = useSearchParams();
+
+	const [openSnackbar, setOpenSnackbar] = useState(false);
+	const [snackbarMsg, setSnackbarMsg] = useState("");
+	const [snackbarSev, setSnackbarSev] = useState<"success" | "error">("success");
+
+	useEffect(() => {
+		if (statusCode === 200) {
+			setSnackbarSev("success");
+			setSnackbarMsg("Recipe has been moderated");
+			setOpenSnackbar(true);
+		} else if (errorMessage) {
+			setSnackbarSev("error");
+			setSnackbarMsg(errorMessage);
+			setOpenSnackbar(true);
+		}
+	}, [statusCode, errorMessage]);
+
+	const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+		if (reason === 'clickaway') return;
+		setOpenSnackbar(false);
+	};
 
 	useEffect(() => {
 		dispatch(recipeActions.getNotModerated(searchParams.get("page")));
@@ -57,17 +79,13 @@ const ModerationList: FC = () => {
 				{
 					!loading && !error &&
 					list.recipes.map(recipe => (
-						<Grid item xs={12} sm={6} md={4} lg={3} key={recipe._id} sx={{display: "flex"}}>
-							<Recipe showModerateButton={true} recipe={recipe} />
-						</Grid>
+						<Recipe key={recipe._id} showModerateButton={true} recipe={recipe} />
 					))
 				}
 				{
 					loading && !error &&
 					[...Array(8).keys()].map((number, index) => (
-						<Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-							<RecipeSkeleton />
-						</Grid>
+						<RecipeSkeleton key={index} />
 					))
 				}
 			</Grid>
@@ -76,6 +94,12 @@ const ModerationList: FC = () => {
 					<MyPagination count={list.count} />
 				</Box>
 			)}
+
+			<Snackbar open={openSnackbar} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+				<Alert onClose={handleCloseSnackbar} severity={snackbarSev} sx={{width: "100%"}}>
+					{snackbarMsg}
+				</Alert>
+			</Snackbar>
 		</Box>
 	);
 };
